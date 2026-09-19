@@ -89,8 +89,7 @@ func (w *WikipediaTool) Execute(ctx context.Context, args map[string]any) (strin
 		"description": data.Description,
 		"summary":     data.Extract,
 	}
-	b, _ := json.Marshal(res)
-	return tools.MakeSuccessPayload(string(b)), nil
+	return tools.MakeSuccessPayload(res), nil
 }
 
 func (w *WikipediaTool) Tags() []string {
@@ -170,8 +169,7 @@ func (h *HistoryTodayTool) Execute(ctx context.Context, args map[string]any) (st
 		})
 	}
 
-	b, _ := json.Marshal(items)
-	return tools.MakeSuccessPayload(string(b)), nil
+	return tools.MakeSuccessPayload(items), nil
 }
 
 func (h *HistoryTodayTool) Tags() []string {

@@ -115,8 +115,7 @@ func (s *WebSearchTool) Execute(ctx context.Context, args map[string]any) (strin
 		})
 	}
 
-	b, _ := json.Marshal(results)
-	return tools.MakeSuccessPayload(string(b)), nil
+	return tools.MakeSuccessPayload(results), nil
 }
 
 func (s *WebSearchTool) Tags() []string {

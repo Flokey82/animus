@@ -99,8 +99,7 @@ func (h *HackerNewsTool) Execute(ctx context.Context, args map[string]any) (stri
 		}
 	}
 
-	b, _ := json.Marshal(stories)
-	return tools.MakeSuccessPayload(string(b)), nil
+	return tools.MakeSuccessPayload(stories), nil
 }
 
 func (h *HackerNewsTool) Tags() []string {

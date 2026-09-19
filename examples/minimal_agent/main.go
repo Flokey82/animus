@@ -8,6 +8,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/Flokey82/animus/pkg/channel"
 	"github.com/Flokey82/animus/pkg/engine"
 	"github.com/Flokey82/animus/pkg/llm"
 	"github.com/Flokey82/animus/pkg/tools/builtin"
@@ -18,6 +19,7 @@ func main() {
 	endpoint := flag.String("url", "http://192.168.86.208:8000/api/v1", "LLM backend endpoint URL")
 	model := flag.String("model", "Gemma-4-26B-A4B-it-MTP-GGUF", "Primary LLM model")
 	mock := flag.Bool("mock", false, "Enable mock mode (no backend required)")
+	webPort := flag.Int("web", 0, "Port for web UI server (e.g. 8081, 0 to disable)")
 	flag.Parse()
 
 	fmt.Println("==========================================================")
@@ -56,7 +58,16 @@ func main() {
 		builtin.NewHistoryTodayTool(),
 		builtin.NewWebSearchTool(),
 		builtin.NewHackerNewsTool(),
+		builtin.NewWeatherTool("Zurich"),
+		builtin.NewRedditTool(),
+		builtin.NewSpeechSynthesisTool("http://192.168.86.208:8000/api/v1/audio/speech", "af_bella"),
 	)
+
+	if *webPort > 0 {
+		webSrv := channel.NewWebServer(*webPort, agent, agent.Hub)
+		_ = webSrv.Start()
+		fmt.Printf("🌐 Web Chat UI running at: http://localhost:%d\n\n", *webPort)
+	}
 
 	// Add initial seed core memories
 	agent.Memory.Add("I love exploring astronomy, lunar cycles, and encyclopedic facts.", "core", 10.0, "identity", "astronomy")

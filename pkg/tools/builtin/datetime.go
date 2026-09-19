@@ -2,7 +2,6 @@ package builtin
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"math"
 	"time"
@@ -47,8 +46,7 @@ func (c *ClockTool) Execute(ctx context.Context, args map[string]any) (string, e
 		"timezone":    now.Location().String(),
 		"is_daytime":  isDaytime,
 	}
-	b, _ := json.Marshal(data)
-	return tools.MakeSuccessPayload(string(b)), nil
+	return tools.MakeSuccessPayload(data), nil
 }
 
 func (c *ClockTool) Tags() []string {
@@ -121,8 +119,7 @@ func (m *CelestialMoonTool) Execute(ctx context.Context, args map[string]any) (s
 		"age_days":             fmt.Sprintf("%.1f days", ageDays),
 		"description":          desc,
 	}
-	b, _ := json.Marshal(res)
-	return tools.MakeSuccessPayload(string(b)), nil
+	return tools.MakeSuccessPayload(res), nil
 }
 
 func (m *CelestialMoonTool) Tags() []string {
