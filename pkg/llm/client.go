@@ -127,8 +127,12 @@ func (c *Client) ChatWithTools(ctx context.Context, messages []openai.ChatComple
 		}, nil
 	}
 
+	model := c.cfg.ToolModel
+	if model == "" {
+		model = c.cfg.Model
+	}
 	opt := RequestOptions{
-		Model: c.cfg.Model,
+		Model: model,
 	}
 	for _, fn := range opts {
 		fn(&opt)
